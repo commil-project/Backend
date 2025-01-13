@@ -12,12 +12,58 @@
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "comilExtension",
+          "title": "Comil",
+          "icon": "resources/comilIcon.svg"
+        }
+      ]
+    },
+    "views": {
+      "comilExtension": [
+        {
+          "id": "stagedView",
+          "name": "Staged Changes"
+        },
+        {
+          "id": "changesView",
+          "name": "Changes"
+        }
+      ]
+    },
     "commands": [
       {
-        "command": "comil-extension.helloWorld",
-        "title": "Hello World"
+        "command": "comilView.refresh",
+        "title": "Refresh View",
+        "category": "Comil"
+      },
+      {
+        "command": "comilView.stageFile",
+        "title": "Stage File",
+        "category": "Comil"
+      },
+      {
+        "command": "comilView.unstageFile",
+        "title": "Unstage File",
+        "category": "Comil"
       }
-    ]
+    ],
+    "menus": {
+      "view/item/context": [
+        {
+          "command": "comilView.stageFile",
+          "when": "view == changesView",
+          "group": "inline"
+        },
+        {
+          "command": "comilView.unstageFile",
+          "when": "view == stagedView",
+          "group": "inline"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
