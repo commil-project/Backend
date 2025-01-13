@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 10px;
+      }
+      textarea {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        resize: both;
+        overflow: auto;
+      }
+      button {
+        background-color: #0078d4;
+        color: white;
+        border: none;
+        padding: 10px;
+        margin: 10px;
+        cursor: pointer;
+        width: 90%;
+      }
+      button:hover {
+        background-color: #005a9e;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="commitMessage" placeholder="Enter commit message"></textarea>
+    <button id="commitButton">Commit</button>
+    <button id="newCommitMessageButton">Generating New Message</button>
+
+    <script>
+      const vscode = acquireVsCodeApi();
+
+      document.getElementById("commitButton").addEventListener("click", () => {
+        const commitMessage = document.getElementById("commitMessage").value;
+        vscode.postMessage({ command: "commit", commitMessage: commitMessage });
+      });
+
+      document
+        .getElementById("newCommitMessageButton")
+        .addEventListener("click", () => {
+          const commitMessage = document.getElementById("commitMessage").value;
+          vscode.postMessage({
+            command: "generateNewCommitMessage",
+            commitMessage: commitMessage,
+          });
+        });
+    </script>
+  </body>
+</html>

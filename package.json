@@ -24,6 +24,11 @@
     "views": {
       "comilExtension": [
         {
+          "id": "commitMessageView",
+          "name": "Commit Message",
+          "type": "webview"
+        },
+        {
           "id": "stagedView",
           "name": "Staged Changes"
         },

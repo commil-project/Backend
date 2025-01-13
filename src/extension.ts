@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { FileTreeDataProvider } from "./view/fileTreeDataProvider";
 import { moveFile } from "./view/moveFile";
+import { CommitMessageViewProvider } from "./view/commitMessageViewProvider";
 
 export function activate(context: vscode.ExtensionContext) {
   // "Staged"와 "Changes" 상태를 관리하는 데이터 프로바이더 생성
@@ -38,11 +39,18 @@ export function activate(context: vscode.ExtensionContext) {
         }
       }
     ),
+
     // 트리 뷰 새로고침 명령
     vscode.commands.registerCommand("comilView.refreshAll", () => {
       stagedProvider.refresh();
       changesProvider.refresh();
-    })
+    }),
+
+    // Webview View 등록
+    vscode.window.registerWebviewViewProvider(
+      "commitMessageView",
+      new CommitMessageViewProvider(context)
+    )
   );
 }
 
