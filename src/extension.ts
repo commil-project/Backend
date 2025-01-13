@@ -39,7 +39,7 @@ export function activate(context: vscode.ExtensionContext) {
       }
     ),
     // 트리 뷰 새로고침 명령
-    vscode.commands.registerCommand("comilView.refresh", () => {
+    vscode.commands.registerCommand("comilView.refreshAll", () => {
       stagedProvider.refresh();
       changesProvider.refresh();
     })

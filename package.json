@@ -35,7 +35,7 @@
     },
     "commands": [
       {
-        "command": "comilView.refresh",
+        "command": "comilView.refreshAll",
         "title": "Refresh View",
         "category": "Comil"
       },
