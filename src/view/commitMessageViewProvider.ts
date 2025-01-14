@@ -1,6 +1,10 @@
 import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
+import { getGitInstance } from "../utils/getGitInstance";
+import { commitWithMessage } from "../utils/commitWithMessage";
+import { CommitMessage } from "../interfaces/message";
+import { CommitMessageCommands } from "../constants/gitCommand";
 
 export class CommitMessageViewProvider implements vscode.WebviewViewProvider {
   constructor(private context: vscode.ExtensionContext) {}
@@ -19,14 +23,18 @@ export class CommitMessageViewProvider implements vscode.WebviewViewProvider {
     webviewView.webview.html = fs.readFileSync(htmlPath, "utf-8");
 
     // Webview에서 메시지 수신
-    webviewView.webview.onDidReceiveMessage(async (message) => {
-      if (message.command === "commit") {
-        const commitMessage = message.commitMessage;
+    webviewView.webview.onDidReceiveMessage(async (message: CommitMessage) => {
+      if (message.command === CommitMessageCommands.COMMIT) {
+        const commitMessage: string = message.commitMessage;
         if (commitMessage) {
-          vscode.window.showInformationMessage(
-            `Committing with message: ${commitMessage}`
-          );
-          // Git 커밋 로직 추가 가능
+          try {
+            await commitWithMessage(commitMessage);
+            vscode.window.showInformationMessage(
+              `Committing with message: ${commitMessage}`
+            );
+          } catch (error: unknown) {
+            vscode.window.showErrorMessage(`Commit failed: ${error}`);
+          }
         } else {
           vscode.window.showErrorMessage("Commit message cannot be empty.");
         }
