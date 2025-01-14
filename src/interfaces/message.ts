@@ -1,4 +1,6 @@
+import { CommitMessageCommand } from "../constants/gitCommand";
+
 export interface CommitMessage {
-  command: "commit" | "generateNewCommitMessage" | "updateCommitMessage";
+  command: CommitMessageCommand;
   commitMessage: string;
 }
