@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import simpleGit, { SimpleGit } from "simple-git";
 import * as path from "path";
 import { FileItem } from "./fileItem";
+import { getGitInstance } from "../utils/getGitInstance";
 
 export class FileTreeDataProvider implements vscode.TreeDataProvider<FileItem> {
   // 트리 데이터가 변경되었음을 알리는 이벤트를 관리.
@@ -25,14 +26,8 @@ export class FileTreeDataProvider implements vscode.TreeDataProvider<FileItem> {
 
   // VSCode가 트리뷰를 렌더링할 때 항목의 자식 노드를 가져오기 위해 호출
   async getChildren(element?: any): Promise<FileItem[]> {
-    const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-    if (!workspaceFolder) {
-      return [new FileItem("No workspace folder open")];
-    }
-
-    const gitRoot = workspaceFolder.uri.fsPath;
-    const git: SimpleGit = simpleGit(gitRoot);
-
+    // 현재 활성 워크스페이스의 Git 인스턴스 가져오기
+    const git: SimpleGit = getGitInstance();
     try {
       const status = await git.status();
       const files =
