@@ -1,10 +1,12 @@
 import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
+import * as cp from "child_process";
 import { getGitInstance } from "../utils/getGitInstance";
 import { commitWithMessage } from "../utils/commitWithMessage";
 import { CommitMessage } from "../interfaces/message";
 import { CommitMessageCommands } from "../constants/gitCommand";
+import { pollEnvFile } from "../utils/pollEnvFile";
 
 export class CommitMessageViewProvider implements vscode.WebviewViewProvider {
   constructor(private context: vscode.ExtensionContext) {}
@@ -38,11 +40,46 @@ export class CommitMessageViewProvider implements vscode.WebviewViewProvider {
         } else {
           vscode.window.showErrorMessage("Commit message cannot be empty.");
         }
-      }
-      if (message.command === "generateNewCommitMessage") {
-        vscode.window.showInformationMessage(
-          "Generating a new commit message..."
-        );
+      } else if (
+        message.command === CommitMessageCommands.GENERATE_NEW_COMMIT_MESSAGE
+      ) {
+        try {
+          const git = getGitInstance();
+          const stagedFiles: string[] = (await git.status()).staged;
+
+          vscode.window.showInformationMessage(
+            `Staged files: ${stagedFiles.join(", ")}`
+          );
+
+          const pythonScriptPath: string =
+            "C:/Users/82108/Desktop/comil/comil-extension/tempAi.py";
+
+          cp.exec(
+            `python "${pythonScriptPath}"`,
+            (error: unknown, stdout: string, stderr: string) => {
+              if (error) {
+                vscode.window.showErrorMessage(
+                  `Error creating commit message: ${stderr}`
+                );
+                return;
+              }
+
+              const envPath: string =
+                "C:/Users/82108/Desktop/comil/comil-extension/.env";
+
+              pollEnvFile(envPath, (aiMessage: string) => {
+                webviewView.webview.postMessage({
+                  command: CommitMessageCommands.UPDATE_COMMIT_MESSAGE,
+                  commitMessage: aiMessage,
+                });
+              });
+            }
+          );
+        } catch (error: unknown) {
+          vscode.window.showErrorMessage(
+            `Error creating commit message: ${error}`
+          );
+        }
       }
     });
   }

@@ -51,6 +51,15 @@
             commitMessage: commitMessage,
           });
         });
+
+      // Extension -> Webview 메세지 수신
+      window.addEventListener("message", (event) => {
+        const msg = event.data;
+        if (msg.command === "updateCommitMessage") {
+          // AI가 생성한 메시지를 textarea에 세팅
+          document.getElementById("commitMessage").value = msg.commitMessage;
+        }
+      });
     </script>
   </body>
 </html>
