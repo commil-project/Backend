@@ -7,9 +7,9 @@ import { commitWithMessage } from "../utils/commitWithMessage";
 import { saveStagedFiles } from "../utils/saveStagedFiles";
 import { CommitMessage } from "../interfaces/message";
 import { CommitMessageCommands } from "../constants/gitCommand";
-import { pollEnvFile } from "../utils/pollEnvFile";
+import { pollFile } from "../utils/pollFile";
 import {
-  ENV_FILE_PATH,
+  AI_COMMIT_MESSAGE_FILE_PATH,
   PYTHON_SCRIPT_PATH,
   SNAPSHOT_DIR_NAME,
   STAGED_DIR_NAME,
@@ -99,7 +99,7 @@ export class CommitMessageViewProvider implements vscode.WebviewViewProvider {
             return;
           }
 
-          pollEnvFile(ENV_FILE_PATH, (aiMessage: string) => {
+          pollFile(AI_COMMIT_MESSAGE_FILE_PATH, (aiMessage: string[]) => {
             webviewView.webview.postMessage({
               command: CommitMessageCommands.UPDATE_COMMIT_MESSAGE,
               commitMessage: aiMessage,
