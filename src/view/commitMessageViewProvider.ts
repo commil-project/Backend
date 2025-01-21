@@ -7,6 +7,7 @@ import { commitWithMessage } from "../utils/commitWithMessage";
 import { CommitMessage } from "../interfaces/message";
 import { CommitMessageCommands } from "../constants/gitCommand";
 import { pollEnvFile } from "../utils/pollEnvFile";
+import { ENV_FILE_PATH, PYTHON_SCRIPT_PATH } from "../constants/paths";
 
 export class CommitMessageViewProvider implements vscode.WebviewViewProvider {
   constructor(private context: vscode.ExtensionContext) {}
@@ -69,11 +70,8 @@ export class CommitMessageViewProvider implements vscode.WebviewViewProvider {
         `Staged files: ${stagedFiles.join(", ")}`
       );
 
-      const pythonScriptPath: string =
-        "C:/Users/82108/Desktop/comil/comil-extension/tempAi.py";
-
       cp.exec(
-        `python "${pythonScriptPath}"`,
+        `python "${PYTHON_SCRIPT_PATH}"`,
         (error: cp.ExecException | null, stdout: string, stderr: string) => {
           if (error) {
             vscode.window.showErrorMessage(
@@ -82,10 +80,7 @@ export class CommitMessageViewProvider implements vscode.WebviewViewProvider {
             return;
           }
 
-          const envPath: string =
-            "C:/Users/82108/Desktop/comil/comil-extension/.env";
-
-          pollEnvFile(envPath, (aiMessage: string) => {
+          pollEnvFile(ENV_FILE_PATH, (aiMessage: string) => {
             webviewView.webview.postMessage({
               command: CommitMessageCommands.UPDATE_COMMIT_MESSAGE,
               commitMessage: aiMessage,
