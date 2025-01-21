@@ -4,6 +4,7 @@ import * as fs from "fs";
 import * as cp from "child_process";
 import { getGitInstance } from "../utils/getGitInstance";
 import { commitWithMessage } from "../utils/commitWithMessage";
+import { saveStagedFiles } from "../utils/saveStagedFiles";
 import { CommitMessage } from "../interfaces/message";
 import { CommitMessageCommands } from "../constants/gitCommand";
 import { pollEnvFile } from "../utils/pollEnvFile";
@@ -66,8 +67,21 @@ export class CommitMessageViewProvider implements vscode.WebviewViewProvider {
       const git = getGitInstance();
       const stagedFiles: string[] = (await git.status()).staged;
 
+      if (stagedFiles.length === 0) {
+        vscode.window.showErrorMessage("No staged files to analyze.");
+        return;
+      }
+
+      const projectRoot =
+        vscode.workspace.workspaceFolders?.[0].uri.fsPath || "";
+      const snapshotDir = path.join(projectRoot, ".snapshot");
+      const stagedDir = path.join(snapshotDir, "staged");
+
+      // 스테이징된 파일 저장
+      saveStagedFiles(projectRoot, stagedDir, stagedFiles);
+
       vscode.window.showInformationMessage(
-        `Staged files: ${stagedFiles.join(", ")}`
+        `Staged files saved to .snapshot/staged.`
       );
 
       cp.exec(
