@@ -8,7 +8,12 @@ import { saveStagedFiles } from "../utils/saveStagedFiles";
 import { CommitMessage } from "../interfaces/message";
 import { CommitMessageCommands } from "../constants/gitCommand";
 import { pollEnvFile } from "../utils/pollEnvFile";
-import { ENV_FILE_PATH, PYTHON_SCRIPT_PATH } from "../constants/paths";
+import {
+  ENV_FILE_PATH,
+  PYTHON_SCRIPT_PATH,
+  SNAPSHOT_DIR_NAME,
+  STAGED_DIR_NAME,
+} from "../constants/paths";
 
 export class CommitMessageViewProvider implements vscode.WebviewViewProvider {
   constructor(private context: vscode.ExtensionContext) {}
@@ -74,8 +79,8 @@ export class CommitMessageViewProvider implements vscode.WebviewViewProvider {
 
       const projectRoot =
         vscode.workspace.workspaceFolders?.[0].uri.fsPath || "";
-      const snapshotDir = path.join(projectRoot, ".snapshot");
-      const stagedDir = path.join(snapshotDir, "staged");
+      const snapshotDir = path.join(projectRoot, SNAPSHOT_DIR_NAME);
+      const stagedDir = path.join(snapshotDir, STAGED_DIR_NAME);
 
       // 스테이징된 파일 저장
       saveStagedFiles(projectRoot, stagedDir, stagedFiles);
