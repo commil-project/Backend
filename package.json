@@ -53,11 +53,6 @@
         "command": "comilView.unstageFile",
         "title": "Unstage File",
         "category": "Comil"
-      },
-      {
-        "command": "comilCommand.initializeSettings",
-        "title": "Init Settings",
-        "category": "Comil"
       }
     ],
     "menus": {
@@ -74,56 +69,6 @@
         }
       ]
     },
-    "configuration": {
-      "title": "Comil Extension Settings",
-      "properties": {
-        "comil-extension.language": {
-          "type": "string",
-          "default": "English",
-          "description": "Preferred language for the extension",
-          "enum": [
-            "English",
-            "한국어"
-          ]
-        },
-        "comil-extension.messageLength": {
-          "type": "string",
-          "default": "Medium",
-          "description": "Preferred message length",
-          "enum": [
-            "Short",
-            "Medium",
-            "Long"
-          ]
-        },
-        "comil-extension.useEmojis": {
-          "type": "boolean",
-          "default": false,
-          "description": "Use emojis in commit messages"
-        },
-        "comil-extension.ai": {
-          "type": "object",
-          "description": "AI Configuration",
-          "properties": {
-            "modelName": {
-              "type": "string",
-              "default": "GPT (OpenAI)",
-              "description": "Select the AI model to use",
-              "enum": [
-                "GPT (OpenAI)",
-                "Custom API Key"
-              ]
-            },
-            "apiKey": {
-              "type": "string",
-              "default": "",
-              "description": "API key for authentication"
-            }
-          }
-        }
-      }
-    }
-  },
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "webpack",
