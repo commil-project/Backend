@@ -10,6 +10,7 @@ export async function saveSettings(settings: Settings): Promise<void> {
       { key: "language", value: settings.language },
       { key: "messageLength", value: settings.messageLength },
       { key: "useEmojis", value: settings.useEmojis },
+      { key: "prefix", value: settings.prefix },
       {
         key: "ai",
         value: {
