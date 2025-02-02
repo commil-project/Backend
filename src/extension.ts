@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import { FileTreeDataProvider } from "./view/fileTreeDataProvider";
 import { moveFile } from "./view/moveFile";
 import { CommitMessageViewProvider } from "./view/commitMessageViewProvider";
+import { initializeSettings } from "./command/settings";
 
 export function activate(context: vscode.ExtensionContext) {
   // "Staged"와 "Changes" 상태를 관리하는 데이터 프로바이더 생성
@@ -45,6 +46,14 @@ export function activate(context: vscode.ExtensionContext) {
       stagedProvider.refresh();
       changesProvider.refresh();
     }),
+
+    // 환경 설정 명령
+    vscode.commands.registerCommand(
+      "comilCommand.initializeSettings",
+      async () => {
+        await initializeSettings();
+      }
+    ),
 
     // Webview View 등록
     vscode.window.registerWebviewViewProvider(
