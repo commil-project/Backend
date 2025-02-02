@@ -106,27 +106,29 @@
             }
           }
         },
-      "comil-extension.messageLength": {
-      "type": "string",
-      "default": "Medium",
-      "description": "Preferred message length",
-      "enum": [
-        "Short",
-        "Medium",
-        "Long"
-      ]
-      },
-      "comil-extension.useEmojis": {
-      "type": "boolean",
-      "default": false,
-      "description": "Use emojis in commit messages"
-      },
-     "comil-extension.prefix": {
-      "type": "boolean",
-      "default": false,
-      "description": "Use prefix in commit messages"
+        "comil-extension.messageLength": {
+          "type": "string",
+          "default": "Medium",
+          "description": "Preferred message length",
+          "enum": [
+            "Short",
+            "Medium",
+            "Long"
+          ]
+        },
+        "comil-extension.useEmojis": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use emojis in commit messages"
+        },
+        "comil-extension.prefix": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use prefix in commit messages"
+        }
       }
-  }},
+    }
+  },
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "webpack",
