@@ -83,7 +83,7 @@ export class CommitMessageViewProvider implements vscode.WebviewViewProvider {
       const stagedDir = path.join(snapshotDir, STAGED_DIR_NAME);
 
       // 스테이징된 파일 저장
-      saveStagedFiles(projectRoot, stagedDir, stagedFiles);
+      await saveStagedFiles(stagedDir, stagedFiles);
 
       vscode.window.showInformationMessage(
         `Staged files saved to .snapshot/staged.`
