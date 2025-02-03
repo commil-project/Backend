@@ -10,10 +10,12 @@ import { CommitMessageCommands } from "../constants/gitCommand";
 import { pollFile } from "../utils/pollFile";
 import {
   AI_COMMIT_MESSAGE_FILE_PATH,
+  PREV_DIR_NAME,
   PYTHON_SCRIPT_PATH,
   SNAPSHOT_DIR_NAME,
   STAGED_DIR_NAME,
 } from "../constants/paths";
+import { saveHeadFiles } from "../utils/saveHeadFiles";
 
 export class CommitMessageViewProvider implements vscode.WebviewViewProvider {
   constructor(private context: vscode.ExtensionContext) {}
@@ -81,6 +83,10 @@ export class CommitMessageViewProvider implements vscode.WebviewViewProvider {
         vscode.workspace.workspaceFolders?.[0].uri.fsPath || "";
       const snapshotDir = path.join(projectRoot, SNAPSHOT_DIR_NAME);
       const stagedDir = path.join(snapshotDir, STAGED_DIR_NAME);
+      const prevDir = path.join(snapshotDir, PREV_DIR_NAME);
+
+      // 현재 HEAD 파일 상태 저장
+      await saveHeadFiles(prevDir);
 
       // 스테이징된 파일 저장
       await saveStagedFiles(stagedDir, stagedFiles);
