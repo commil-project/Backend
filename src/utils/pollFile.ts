@@ -22,7 +22,7 @@ export function pollFile(filePath: string, callback: (msg: string[]) => void) {
             JSON.stringify({ recommended_messages: [] }, null, 4),
             "utf-8"
           );
-        } catch (error) {
+        } catch {
           throw new Error("Error while clearing JSON file");
         }
       }
