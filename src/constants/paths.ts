@@ -1,4 +1,5 @@
 export const SNAPSHOT_DIR_NAME = ".snapshot";
+export const PREV_DIR_NAME = "prev";
 export const STAGED_DIR_NAME = "staged";
 
 export const PYTHON_SCRIPT_PATH =
