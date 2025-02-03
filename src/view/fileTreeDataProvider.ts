@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import simpleGit, { SimpleGit } from "simple-git";
+import { SimpleGit } from "simple-git";
 import * as path from "path";
 import { FileItem } from "./fileItem";
 import { getGitInstance } from "../utils/getGitInstance";
